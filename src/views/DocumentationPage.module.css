@@ -1,0 +1,11 @@
+.component-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.component-list > section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
