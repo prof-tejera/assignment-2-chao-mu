@@ -1,0 +1,30 @@
+[
+  {
+    "type": "Stopwatch",
+    "workDuration": 60000,
+    "restDuration": 0,
+    "rounds": 1,
+    "countUp": true
+  },
+  {
+    "type": "Countdown",
+    "workDuration": 30000,
+    "restDuration": 0,
+    "rounds": 1,
+    "countUp": false
+  },
+  {
+    "type": "XY",
+    "workDuration": 45000,
+    "restDuration": 0,
+    "rounds": 3,
+    "countUp": false
+  },
+  {
+    "type": "TABATA",
+    "workDuration": 20000,
+    "restDuration": 10000,
+    "rounds": 8,
+    "countUp": false
+  }
+]

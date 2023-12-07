@@ -1,9 +1,11 @@
 import { useForm, FormProvider } from "react-hook-form";
 
+import { v4 as uuidv4 } from "uuid";
+
 import TimeInput from "@/components/form/TimeInput";
 import PositiveIntegerInput from "@/components/form/PositiveIntegerInput";
 import Select from "@/components/form/Select";
-import Submit from "@/components/form/Submit";
+import Button from "@/components/form/Button";
 
 import styles from "./TimerForm.module.css";
 
@@ -62,6 +64,7 @@ const TimerForm = ({ onSubmit }) => {
     const timerOptions = {
       ...userProvidedData,
       ...constants,
+      id: uuidv4(),
     };
 
     onSubmit(timerOptions);
@@ -85,7 +88,7 @@ const TimerForm = ({ onSubmit }) => {
         {enabledFields.includes("rounds") && (
           <PositiveIntegerInput required={true} label="Rounds" name="rounds" />
         )}
-        <Submit label="Save" />
+        <Button type="submit">Save</Button>
       </form>
     </FormProvider>
   );

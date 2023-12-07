@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import TimeDisplay from "./TimeDisplay";
+import TimeDisplay from "@/components/ui/TimeDisplay";
 
 const Timer = ({ title, round, activity, maxRounds, timeMs }) => {
   return (
@@ -9,9 +9,7 @@ const Timer = ({ title, round, activity, maxRounds, timeMs }) => {
       <div>
         Round {round} of {maxRounds}
       </div>
-
       <TimeDisplay timeMs={timeMs} />
-
       <div>{activity}</div>
     </section>
   );

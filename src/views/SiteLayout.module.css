@@ -19,10 +19,12 @@
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  padding-top: 2rem;
 }
 
 .footer {
   align-self: flex-end;
-  padding: 1rem;
+}
+
+.footer p {
+  margin: 1rem;
 }

@@ -3,15 +3,22 @@ import Workout from "@/components/workout/Workout";
 import Timer from "@/components/timer/Timer";
 import TimerPreview from "@/components/timer/TimerPreview";
 import TimerForm from "@/components/timer/TimerForm";
-import TimeDisplay from "@/components/timer/TimeDisplay";
+import TimeDisplay from "@/components/ui/TimeDisplay";
 
 import styles from "./DocumentationPage.module.css";
+
+import mockWorkout from "@/data/mock-workout.json";
 
 const docs = [
   {
     comp: WorkoutPlan,
     name: "WorkoutPlan",
-    props: {},
+    props: {
+      timers: mockWorkout,
+      onRemove: (timer) => {
+        console.log("Removing timer", timer);
+      },
+    },
   },
   {
     comp: Workout,
@@ -53,7 +60,7 @@ const DocumentationPage = () => (
     {docs.map(({ comp: Comp, name, props }) => {
       return (
         <section key={name}>
-          <h2>{`<${name}>`}</h2>
+          <h2>{`<${name}/>`}</h2>
           <Comp {...props} />
         </section>
       );

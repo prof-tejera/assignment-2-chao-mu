@@ -22,6 +22,18 @@ export const splitTimeMs = (timeMs) => {
   return { hours, minutes, seconds, ms };
 };
 
+export const timeInWords = (timeMs) => {
+  const timeComps = splitTimeMs(timeMs);
+
+  // Skip milliseconds
+  delete timeComps.ms;
+
+  return Object.entries(timeComps)
+    .filter((kv) => kv[1] > 0)
+    .map(([key, value]) => `${value} ${key}`)
+    .join(", ");
+};
+
 export const joinTimeMs = ({ hours = 0, minutes = 0, seconds = 0 }) => {
   return hours * msPerHour + minutes * msPerMinute + seconds * msPerSecond;
 };
