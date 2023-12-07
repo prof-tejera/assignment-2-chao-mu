@@ -1,9 +1,20 @@
 .summary {
   display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
   border-bottom: 2px solid black;
   padding: 0.5rem 1rem;
+}
+
+.summary > :first-child {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 2rem;
+}
+
+.summary > :last-child {
+  align-self: end;
+  justify-self: end;
 }
 
 .workout-plan {
@@ -30,4 +41,8 @@
 
 .workout-plan table tbody tr:nth-child(even) {
   background-color: var(--clr-neutral-150);
+}
+
+.no-timers {
+  text-align: center;
 }

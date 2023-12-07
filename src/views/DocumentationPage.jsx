@@ -9,6 +9,13 @@ import styles from "./DocumentationPage.module.css";
 
 import mockWorkout from "@/data/mock-workout.json";
 
+const exampleTABATA = {
+  type: "TABATA",
+  workDuration: 20000,
+  restDuration: 10000,
+  rounds: 8,
+};
+
 const docs = [
   {
     comp: WorkoutPlan,
@@ -29,17 +36,17 @@ const docs = [
     comp: Timer,
     name: "Timer",
     props: {
-      timeMs: 34250,
+      title: "Example Timer",
       round: 1,
-      maxRounds: 3,
       activity: "Work",
-      title: "TABATA",
+      maxRounds: 8,
+      timeMs: 20000,
     },
   },
   {
     comp: TimerPreview,
     name: "TimerPreview",
-    props: {},
+    props: { timer: exampleTABATA },
   },
   {
     comp: TimerForm,
@@ -61,7 +68,9 @@ const DocumentationPage = () => (
       return (
         <section key={name}>
           <h2>{`<${name}/>`}</h2>
-          <Comp {...props} />
+          <div>
+            <Comp {...props} />
+          </div>
         </section>
       );
     })}

@@ -28,10 +28,12 @@ export const timeInWords = (timeMs) => {
   // Skip milliseconds
   delete timeComps.ms;
 
-  return Object.entries(timeComps)
-    .filter((kv) => kv[1] > 0)
-    .map(([key, value]) => `${value} ${key}`)
-    .join(", ");
+  return (
+    Object.entries(timeComps)
+      .filter((kv) => kv[1] > 0)
+      .map(([key, value]) => `${value} ${key}`)
+      .join(", ") || "0 seconds"
+  );
 };
 
 export const joinTimeMs = ({ hours = 0, minutes = 0, seconds = 0 }) => {

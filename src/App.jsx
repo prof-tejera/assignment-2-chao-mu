@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Ours
-import SiteLayout from "./views/SiteLayout.jsx";
-import HomePage from "./views/HomePage.jsx";
-import AddPage from "./views/AddPage.jsx";
-import DocumentationPage from "./views/DocumentationPage.jsx";
+import SiteLayout from "./views/SiteLayout";
+import HomePage from "./views/HomePage";
+import AddPage from "./views/AddPage";
+import DocumentationPage from "./views/DocumentationPage";
+import { WorkoutProvider } from "./contexts/workout";
 
 const router = createBrowserRouter([
   {
@@ -27,5 +28,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+  <WorkoutProvider>
+    <RouterProvider router={router} />;
+  </WorkoutProvider>
+);
+
 export default App;

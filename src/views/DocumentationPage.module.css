@@ -1,9 +1,7 @@
 .component-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 2rem;
-  max-width: 900px;
-  width: 100%;
 }
 
 .component-list > section {

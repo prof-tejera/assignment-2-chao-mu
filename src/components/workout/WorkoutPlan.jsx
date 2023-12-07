@@ -28,6 +28,13 @@ const WorkoutPlan = ({ timers, onRemove }) => {
           </tr>
         </thead>
         <tbody>
+          {timers.length === 0 && (
+            <tr>
+              <td className={styles["no-timers"]} colSpan="5">
+                No timers added yet
+              </td>
+            </tr>
+          )}
           {timers.map((timer, index) => (
             <tr key={index}>
               <td>{timer.type}</td>
@@ -48,14 +55,19 @@ const WorkoutPlan = ({ timers, onRemove }) => {
         </tbody>
       </table>
       <div className={styles.summary}>
-        <div>Rounds</div>
-        <div>{totalRounds}</div>
-        <div>Work Time</div>
-        <div>{timeInWords(totalWork)}</div>
-        <div>Rest Time</div>
-        <div>{timeInWords(totalRest)}</div>
-        <div>Total Time</div>
-        <div>{timeInWords(totalWork + totalRest)}</div>
+        <div>
+          <div>Rounds</div>
+          <div>{totalRounds}</div>
+          <div>Work Time</div>
+          <div>{timeInWords(totalWork)}</div>
+          <div>Rest Time</div>
+          <div>{timeInWords(totalRest)}</div>
+          <div>Total Time</div>
+          <div>{timeInWords(totalWork + totalRest)}</div>
+        </div>
+        <div>
+          <Button to="/add">Add Timer</Button>
+        </div>
       </div>
     </section>
   );
