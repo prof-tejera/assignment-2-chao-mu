@@ -1,0 +1,9 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form [type="submit"] {
+  margin-top: 2rem;
+  align-self: center;
+}

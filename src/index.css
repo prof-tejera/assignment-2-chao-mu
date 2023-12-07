@@ -5,6 +5,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font: inherit;
 }
 
 :root {
@@ -16,6 +17,10 @@
   --font-size-xl: clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem);
   --font-size-xxl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
   --font-size-xxxl: clamp(3.05rem, 3.54vw + 2.17rem, 5rem);
+
+  --font-weight-bold: 700;
+
+  --clr-error: hsl(0, 100%, 45%);
 }
 
 body {
