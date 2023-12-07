@@ -1,4 +1,5 @@
 import WorkoutPlan from "@/components/workout/WorkoutPlan";
+import WorkoutSummary from "@/components/workout/WorkoutSummary";
 
 import { useWorkoutContext } from "@/contexts/workout";
 
@@ -10,6 +11,7 @@ const HomePage = () => {
   return (
     <div className={styles["home-page"]}>
       <WorkoutPlan timers={timers} onRemove={(timer) => removeTimer(timer)} />
+      <WorkoutSummary timers={timers} />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import WorkoutPlan from "@/components/workout/WorkoutPlan";
 import Workout from "@/components/workout/Workout";
+import WorkoutSummary from "@/components/workout/WorkoutSummary";
 import Timer from "@/components/timer/Timer";
 import TimerPreview from "@/components/timer/TimerPreview";
 import TimerForm from "@/components/timer/TimerForm";
@@ -59,6 +60,13 @@ const docs = [
     comp: TimeDisplay,
     name: "TimeDisplay",
     props: { timeMs: 34250 },
+  },
+  {
+    comp: WorkoutSummary,
+    name: "WorkoutSummary",
+    props: {
+      timers: mockWorkout,
+    },
   },
 ];
 
