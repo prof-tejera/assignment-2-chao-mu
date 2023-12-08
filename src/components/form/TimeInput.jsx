@@ -62,7 +62,7 @@ const TimeInput = ({ label, name }) => {
           ))}
         </select>
         <select onChange={handleChange} onBlur={onBlur} ref={secondsRef}>
-          {["00", "15", "30", "45"].map((num) => (
+          {["00", "05", "15", "30", "45"].map((num) => (
             <option key={num} value={num}>
               {num} seconds
             </option>

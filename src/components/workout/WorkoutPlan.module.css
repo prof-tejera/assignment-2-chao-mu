@@ -11,7 +11,7 @@
 
 .workout-plan table th,
 .workout-plan table td {
-  padding: 0.5rem 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .workout-plan table tbody tr:nth-child(even) {
@@ -20,4 +20,8 @@
 
 .no-timers {
   text-align: center;
+}
+
+.actions {
+  font-size: var(--font-size-base);
 }

@@ -1,25 +1,16 @@
 import { useEffect } from "react";
 
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 
-import { getTimerProgress, getTotalDuration } from "@/types/timer";
+import { getTotalDuration, TimerState } from "@/types/timer";
 
 import { useClock } from "@/hooks/useClock";
 
-import { createTimer } from "@/types/timer";
+import { createTimerSnapshot } from "@/types/timer";
 
-const WorkoutContext = createContext(null);
+import WorkoutContext from "./WorkoutContext";
 
-export const useWorkoutContext = () => {
-  const context = useContext(WorkoutContext);
-  if (!context) {
-    throw new Error("useWorkoutContext must be used within a WorkoutProvider");
-  }
-
-  return context;
-};
-
-export const WorkoutProvider = ({ children }) => {
+const WorkoutProvider = ({ children }) => {
   const [plan, setPlan] = useState([]);
   const [timer, setTimer] = useState(null);
   const [cursor, setCursor] = useState(0);
@@ -30,6 +21,7 @@ export const WorkoutProvider = ({ children }) => {
     resumeClock,
     pauseClock,
     resetClock,
+    restartClock,
     setTranspired,
   } = useClock();
 
@@ -46,40 +38,27 @@ export const WorkoutProvider = ({ children }) => {
       return;
     }
 
-    // Do we have a plan, but no defined timer?
-    if (!timerDefined) {
-      setTimer(createTimer(plan[cursor]));
-      return;
-    }
-
-    // Are we paused?
-    if (paused) {
-      return;
-    }
-
-    console.log("progress", transpired);
-
-    // Check the timer's progress
-    const options = plan[cursor];
-    const progress = getTimerProgress({ options, transpired });
+    const updatedTimer = createTimerSnapshot({
+      options: plan[cursor],
+      active: !paused,
+      transpired,
+    });
+    setTimer(updatedTimer);
 
     // Did the timer complete?
-    if (progress.isCompleted) {
-      const newCursor = cursor + 1;
-      if (newCursor >= plan.length) {
-        pauseClock();
+    if (updatedTimer.progress.state === TimerState.COMPLETED) {
+      const updatedCursor = cursor + 1;
 
-        setTimer((timer) => ({ ...timer, progress }));
+      // Are we at the end of the plan?
+      if (updatedCursor >= plan.length) {
+        pauseClock();
 
         return;
       }
 
-      // Let useEffect update the timer
-      setCursor(newCursor);
-      setTimer(null);
-      resetClock();
-
-      return;
+      // Next timer!
+      setCursor(updatedCursor);
+      restartClock();
     }
   }, [transpired, plan, cursor, resetClock, timerDefined, pauseClock, paused]);
 
@@ -96,9 +75,6 @@ export const WorkoutProvider = ({ children }) => {
    * @param {import('@/types/timer').TimerOptions} timerOptions
    */
   const addTimer = (timerOptions) => {
-    if (plan.length === 0) {
-      setTimer();
-    }
     setPlan([...plan, timerOptions]);
   };
 
@@ -144,3 +120,5 @@ export const WorkoutProvider = ({ children }) => {
     <WorkoutContext.Provider value={value}>{children}</WorkoutContext.Provider>
   );
 };
+
+export default WorkoutProvider;

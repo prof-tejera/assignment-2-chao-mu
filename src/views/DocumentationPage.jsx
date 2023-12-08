@@ -1,3 +1,4 @@
+// Ours - Components
 import WorkoutPlan from "@/components/workout/WorkoutPlan";
 import Workout from "@/components/workout/Workout";
 import WorkoutSummary from "@/components/workout/WorkoutSummary";
@@ -6,8 +7,13 @@ import TimerPreview from "@/components/timer/TimerPreview";
 import TimerForm from "@/components/timer/TimerForm";
 import TimeDisplay from "@/components/ui/TimeDisplay";
 
+// Ours - Types
+import { TimerState } from "@/types/timer";
+
+// Ours - Styles
 import styles from "./DocumentationPage.module.css";
 
+// Ours - Data
 import mockWorkout from "@/data/mock-workout.json";
 
 const exampleTABATA = {
@@ -37,12 +43,15 @@ const docs = [
     comp: TimerDisplay,
     name: "Timer",
     props: {
-      options: exampleTABATA,
-      progress: {
-        round: 1,
-        roundTranspired: 10000,
-        isWorking: true,
-        roundDuration: 20000,
+      timer: {
+        options: exampleTABATA,
+        progress: {
+          round: 1,
+          roundTranspired: 10000,
+          isWorking: true,
+          roundDuration: 20000,
+          state: TimerState.RUNNING,
+        },
       },
     },
   },

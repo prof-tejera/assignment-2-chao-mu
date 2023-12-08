@@ -16,6 +16,7 @@ const ClockActionType = {
   RESUME: "resume",
   PAUSE: "pause",
   RESET: "reset",
+  RESTART: "restart",
   TICK: "tick",
   SET_TRANSPIRED: "setTranspired",
 };
@@ -55,6 +56,12 @@ const clockReducer = (state, action) => {
     case ClockActionType.RESET: {
       return { ...initialState };
     }
+    case ClockActionType.RESTART: {
+      return {
+        ...initialState,
+        paused: false,
+      };
+    }
     case ClockActionType.TICK: {
       if (state.paused) {
         return state;
@@ -68,9 +75,13 @@ const clockReducer = (state, action) => {
       };
     }
     case ClockActionType.SET_TRANSPIRED: {
+      const transpired = action.payload.transpired;
+
       return {
         ...state,
-        transpired: action.payload,
+        transpired,
+        transpiredAtPause: transpired,
+        paused: true,
       };
     }
     default: {
@@ -87,7 +98,9 @@ export const useClock = () => {
       dispatch({ type: ClockActionType.TICK });
     }, 20);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   return {
@@ -102,6 +115,10 @@ export const useClock = () => {
     ),
     resetClock: useCallback(
       () => dispatch({ type: ClockActionType.RESET }),
+      [],
+    ),
+    restartClock: useCallback(
+      () => dispatch({ type: ClockActionType.RESTART }),
       [],
     ),
     setTranspired: useCallback(

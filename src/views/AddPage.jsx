@@ -1,6 +1,6 @@
 import TimerForm from "@/components/timer/TimerForm";
 
-import { useWorkoutContext } from "@/contexts/workout";
+import useWorkoutContext from "@/contexts/workout/useWorkoutContext";
 
 import { useNavigate } from "react-router-dom";
 

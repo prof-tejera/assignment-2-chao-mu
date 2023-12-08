@@ -1,7 +1,12 @@
-import styles from "./WorkoutPlan.module.css";
+// Ours - Types
+import { hasTimerFeature } from "@/types/timer";
 
+// Ours - Components
 import TimeDisplay from "@/components/ui/TimeDisplay";
 import Button from "@/components/form/Button";
+
+// Ours - Styles
+import styles from "./WorkoutPlan.module.css";
 
 /**
  * @param {Object} props
@@ -41,8 +46,10 @@ const WorkoutPlan = ({ plan, onRemove }) => {
                   <TimeDisplay timeMs={options.restDuration} />
                 )}
               </td>
-              <td>{options.rounds}</td>
               <td>
+                {hasTimerFeature(options.type, "rounds") && options.rounds}
+              </td>
+              <td className={styles.actions}>
                 <Button onClick={() => onRemove(options.id)}>Delete</Button>
               </td>
             </tr>

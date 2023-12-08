@@ -1,18 +1,19 @@
 .workout-summary {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: var(--spacing-xl);
   border-bottom: 2px solid black;
-  padding: 0.5rem 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .workout-summary > :first-child {
   display: grid;
   grid-template-columns: max-content 1fr;
-  column-gap: 2rem;
+  column-gap: var(--spacing-xl);
 }
 
 .workout-summary > :last-child {
   align-self: end;
   justify-self: end;
+  font-size: var(--font-size-base);
 }

@@ -1,7 +1,12 @@
+//
 import { useForm, FormProvider } from "react-hook-form";
 
 import { v4 as uuidv4 } from "uuid";
 
+// Ours - Types
+import { TimerOptionsPresets as presets } from "@/types/timer";
+
+// Ours - Components
 import TimeInput from "@/components/form/TimeInput";
 import PositiveIntegerInput from "@/components/form/PositiveIntegerInput";
 import Select from "@/components/form/Select";
@@ -9,61 +14,34 @@ import Button from "@/components/form/Button";
 
 import styles from "./TimerForm.module.css";
 
-// See @/types/TimerOptions for what we are creating
-const timerTypes = {
-  Stopwatch: {
-    userProvided: ["workDuration"],
-    constants: {
-      restDuration: 0,
-      rounds: 1,
-      countUp: true,
-    },
-  },
-  Countdown: {
-    userProvided: ["workDuration"],
-    constants: {
-      restDuration: 0,
-      rounds: 1,
-      countUp: false,
-    },
-  },
-  XY: {
-    userProvided: ["workDuration", "rounds"],
-    constants: {
-      restDuration: 0,
-      countUp: false,
-    },
-  },
-  TABATA: {
-    userProvided: ["workDuration", "restDuration", "rounds"],
-    constants: {
-      countUp: false,
-    },
-  },
-};
-
+/**
+ * @param {Object} props
+ * @param {function(import('@/types/timer').TimerOptions): void} props.onSubmit
+ */
 const TimerForm = ({ onSubmit }) => {
   const formMethods = useForm({
     defaultValues: {
-      timerType: "Stopwatch",
+      type: "Stopwatch",
     },
   });
 
   const { handleSubmit, watch } = formMethods;
 
-  const timerType = watch("timerType");
-  const enabledFields = timerType ? timerTypes[timerType].userProvided : [];
+  const type = watch("type");
+  const enabledFields = type ? presets[type].features : [];
 
   const onSubmitWrapper = (data) => {
-    const { userProvided, constants } = timerTypes[timerType];
+    const { features: userProvided, constants } = presets[type];
 
     const userProvidedData = Object.fromEntries(
       userProvided.map((key) => [key, data[key]]),
     );
 
+    /** @type {import('@/types/timer').TimerOptions} **/
     const timerOptions = {
       ...userProvidedData,
       ...constants,
+      type: data.type,
       id: uuidv4(),
     };
 
@@ -73,11 +51,7 @@ const TimerForm = ({ onSubmit }) => {
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmitWrapper)} className={styles.form}>
-        <Select
-          label="Timer Type"
-          name="timerType"
-          options={Object.keys(timerTypes)}
-        />
+        <Select label="Timer Type" name="type" options={Object.keys(presets)} />
 
         {enabledFields.includes("workDuration") && (
           <TimeInput label="Work Duration" name="workDuration" />
@@ -88,7 +62,7 @@ const TimerForm = ({ onSubmit }) => {
         {enabledFields.includes("rounds") && (
           <PositiveIntegerInput required={true} label="Rounds" name="rounds" />
         )}
-        <Button type="submit">Save</Button>
+        <Button submit>Save</Button>
       </form>
     </FormProvider>
   );

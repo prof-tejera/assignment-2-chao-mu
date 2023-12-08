@@ -1,0 +1,12 @@
+.workout-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.workout-controls__timer,
+.workout-controls__workout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

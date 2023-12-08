@@ -13,12 +13,9 @@ const WorkoutSummary = ({ plan }) => {
     (acc, current) => acc + current.rounds * current.restDuration,
     0,
   );
-  const totalRounds = plan.reduce((acc, current) => acc + current.rounds, 0);
   return (
     <div className={styles["workout-summary"]}>
       <div>
-        <div>Rounds</div>
-        <div>{totalRounds}</div>
         <div>Work Time</div>
         <div>{timeInWords(totalWork)}</div>
         <div>Rest Time</div>

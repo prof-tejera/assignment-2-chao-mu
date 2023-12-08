@@ -6,11 +6,13 @@ import { useNavigate } from "react-router-dom";
  * Button component that handles navigation and click events.
  * @param {Object} props - The props for the Button component.
  * @param {React.ReactNode} props.children - The content within the button.
+ * @param {boolean} [props.submit] - Whether the button should submit the form.
  * @param {string} [props.to] - The URL to navigate when the button is clicked.
  * @param {function(Event): void} [props.onClick] - Function to handle click events.
+ *
  * @returns {JSX.Element} JSX element representing the button.
  */
-const Button = ({ children, to, onClick, ...props }) => {
+const Button = ({ to, submit = false, onClick, children }) => {
   const navigate = useNavigate();
 
   const handleClick = (event) => {
@@ -26,9 +28,8 @@ const Button = ({ children, to, onClick, ...props }) => {
   return (
     <button
       onClick={handleClick}
-      {...props}
       className={styles.button}
-      type="submit"
+      type={submit ? "submit" : "button"}
     >
       {children}
     </button>
