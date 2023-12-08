@@ -1,5 +1,6 @@
 [
   {
+    "id": "id-for-stopwatch",
     "type": "Stopwatch",
     "workDuration": 60000,
     "restDuration": 0,
@@ -7,6 +8,7 @@
     "countUp": true
   },
   {
+    "id": "id-for-countdown",
     "type": "Countdown",
     "workDuration": 30000,
     "restDuration": 0,
@@ -14,6 +16,7 @@
     "countUp": false
   },
   {
+    "id": "id-for-xy",
     "type": "XY",
     "workDuration": 45000,
     "restDuration": 0,
@@ -21,6 +24,7 @@
     "countUp": false
   },
   {
+    "id": "id-for-tabata",
     "type": "TABATA",
     "workDuration": 20000,
     "restDuration": 10000,

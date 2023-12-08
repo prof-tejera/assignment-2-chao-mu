@@ -39,9 +39,3 @@ export const timeInWords = (timeMs) => {
 export const joinTimeMs = ({ hours = 0, minutes = 0, seconds = 0 }) => {
   return hours * msPerHour + minutes * msPerMinute + seconds * msPerSecond;
 };
-
-export const bindEvent =
-  (...onChanges) =>
-  (event) => {
-    onChanges.forEach((onChange) => onChange(event.target.value));
-  };

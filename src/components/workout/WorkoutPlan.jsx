@@ -3,7 +3,13 @@ import styles from "./WorkoutPlan.module.css";
 import TimeDisplay from "@/components/ui/TimeDisplay";
 import Button from "@/components/form/Button";
 
-const WorkoutPlan = ({ timers, onRemove }) => {
+/**
+ * @param {Object} props
+ * @param {Array.<import('@/types/timer').TimerOptions>} props.plan
+ * @param {function(string): void} props.onRemove
+ * @returns {JSX.Element}
+ */
+const WorkoutPlan = ({ plan, onRemove }) => {
   return (
     <section className={styles["workout-plan"]}>
       <table>
@@ -17,27 +23,27 @@ const WorkoutPlan = ({ timers, onRemove }) => {
           </tr>
         </thead>
         <tbody>
-          {timers.length === 0 && (
+          {plan.length === 0 && (
             <tr>
-              <td className={styles["no-timers"]} colSpan="5">
+              <td className={styles["no-timers"]} colSpan={5}>
                 No timers added yet
               </td>
             </tr>
           )}
-          {timers.map((timer, index) => (
+          {plan.map((options, index) => (
             <tr key={index}>
-              <td>{timer.type}</td>
+              <td>{options.type}</td>
               <td>
-                <TimeDisplay timeMs={timer.workDuration} />
+                <TimeDisplay timeMs={options.workDuration} />
               </td>
               <td>
-                {timer.restDuration > 0 && (
-                  <TimeDisplay timeMs={timer.restDuration} />
+                {options.restDuration > 0 && (
+                  <TimeDisplay timeMs={options.restDuration} />
                 )}
               </td>
-              <td>{timer.rounds}</td>
+              <td>{options.rounds}</td>
               <td>
-                <Button onClick={() => onRemove(timer)}>Delete</Button>
+                <Button onClick={() => onRemove(options.id)}>Delete</Button>
               </td>
             </tr>
           ))}

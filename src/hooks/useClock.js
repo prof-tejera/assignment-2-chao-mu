@@ -1,59 +1,76 @@
-import { useReducer } from "react";
+import { useReducer, useCallback, useEffect } from "react";
 
+/**
+ * @typedef {object} ClockState
+ * @property {number | null} startedAt
+ * @property {number} transpired
+ * @property {boolean} paused
+ * @property {number} transpiredAtPause
+ */
+
+/**
+ * @enum {string}
+ * @readonly
+ */
+const ClockActionType = {
+  RESUME: "resume",
+  PAUSE: "pause",
+  RESET: "reset",
+  TICK: "tick",
+  SET_TRANSPIRED: "setTranspired",
+};
+
+/**
+ * @type {ClockState}
+ */
 const initialState = {
   startedAt: null,
   transpired: 0,
   paused: true,
-  target: 0,
   transpiredAtPause: 0,
 };
 
-const timerReducer = (state, action) => {
+/**
+ * @param {ClockState} state
+ * @param {Object} action
+ * @param {ClockActionType} action.type
+ * @param {any} [action.payload]
+ */
+const clockReducer = (state, action) => {
   switch (action.type) {
-    case "resume": {
+    case ClockActionType.RESUME: {
       return {
         ...state,
         startedAt: Date.now(),
         paused: false,
       };
     }
-    case "pause": {
+    case ClockActionType.PAUSE: {
       return {
         ...state,
         transpiredAtPause: state.transpired,
         paused: true,
       };
     }
-    case "reset": {
-      return { ...initialState, target: state.target };
+    case ClockActionType.RESET: {
+      return { ...initialState };
     }
-    case "end": {
-      return {
-        ...state,
-        transpired: state.target,
-        paused: true,
-      };
-    }
-    case "setTarget": {
-      return {
-        ...initialState,
-        target: action.target,
-      };
-    }
-    case "tick": {
+    case ClockActionType.TICK: {
       if (state.paused) {
         return state;
       }
 
-      const transpired = Math.min(
-        state.target,
-        state.transpiredAtPause + Date.now() - state.startedAt,
-      );
+      const transpired = state.transpiredAtPause + Date.now() - state.startedAt;
 
       return {
         ...state,
         transpired,
-        paused: state.target === transpired,
+      };
+    }
+    case ClockActionType.SET_TRANSPIRED: {
+      return {
+        ...state,
+        transpired: action.payload,
       };
     }
     default: {
@@ -62,16 +79,40 @@ const timerReducer = (state, action) => {
   }
 };
 
-const makeEffect = (dispatch) => () => {
-  const intervalId = setInterval(() => {
-    dispatch({ type: "tick" });
-  }, 20);
-
-  return () => clearInterval(intervalId);
-};
-
 export const useClock = () => {
-  const [state, dispatch] = useReducer(timerReducer, initialState);
+  const [state, dispatch] = useReducer(clockReducer, initialState);
 
-  return [state, dispatch, makeEffect(dispatch)];
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch({ type: ClockActionType.TICK });
+    }, 20);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  return {
+    ...state,
+    resumeClock: useCallback(
+      () => dispatch({ type: ClockActionType.RESUME }),
+      [],
+    ),
+    pauseClock: useCallback(
+      () => dispatch({ type: ClockActionType.PAUSE }),
+      [],
+    ),
+    resetClock: useCallback(
+      () => dispatch({ type: ClockActionType.RESET }),
+      [],
+    ),
+    setTranspired: useCallback(
+      (newTranspired) =>
+        dispatch({
+          type: ClockActionType.SET_TRANSPIRED,
+          payload: {
+            transpired: newTranspired,
+          },
+        }),
+      [],
+    ),
+  };
 };

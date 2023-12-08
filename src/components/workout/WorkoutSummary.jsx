@@ -4,16 +4,16 @@ import { timeInWords } from "@/utils/time";
 
 import Button from "@/components/form/Button";
 
-const WorkoutSummary = ({ timers }) => {
-  const totalWork = timers.reduce(
+const WorkoutSummary = ({ plan }) => {
+  const totalWork = plan.reduce(
     (acc, current) => acc + current.rounds * current.workDuration,
     0,
   );
-  const totalRest = timers.reduce(
+  const totalRest = plan.reduce(
     (acc, current) => acc + current.rounds * current.restDuration,
     0,
   );
-  const totalRounds = timers.reduce((acc, current) => acc + current.rounds, 0);
+  const totalRounds = plan.reduce((acc, current) => acc + current.rounds, 0);
   return (
     <div className={styles["workout-summary"]}>
       <div>

@@ -1,7 +1,7 @@
 import WorkoutPlan from "@/components/workout/WorkoutPlan";
 import Workout from "@/components/workout/Workout";
 import WorkoutSummary from "@/components/workout/WorkoutSummary";
-import Timer from "@/components/timer/Timer";
+import TimerDisplay from "@/components/timer/TimerDisplay";
 import TimerPreview from "@/components/timer/TimerPreview";
 import TimerForm from "@/components/timer/TimerForm";
 import TimeDisplay from "@/components/ui/TimeDisplay";
@@ -22,9 +22,9 @@ const docs = [
     comp: WorkoutPlan,
     name: "WorkoutPlan",
     props: {
-      timers: mockWorkout,
-      onRemove: (timer) => {
-        console.log("Removing timer", timer);
+      plan: mockWorkout,
+      onRemove: (id) => {
+        console.log("Removing timer", id);
       },
     },
   },
@@ -34,14 +34,16 @@ const docs = [
     props: {},
   },
   {
-    comp: Timer,
+    comp: TimerDisplay,
     name: "Timer",
     props: {
-      title: "Example Timer",
-      round: 1,
-      activity: "Work",
-      maxRounds: 8,
-      timeMs: 20000,
+      options: exampleTABATA,
+      progress: {
+        round: 1,
+        roundTranspired: 10000,
+        isWorking: true,
+        roundDuration: 20000,
+      },
     },
   },
   {
@@ -65,7 +67,7 @@ const docs = [
     comp: WorkoutSummary,
     name: "WorkoutSummary",
     props: {
-      timers: mockWorkout,
+      plan: mockWorkout,
     },
   },
 ];
