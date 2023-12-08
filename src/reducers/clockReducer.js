@@ -118,16 +118,15 @@ const clockReducer = (state, { type, payload }) => {
       };
     }
     case ClockActionType.TICK: {
-      if (state.paused) {
-        return state;
-      }
-
-      const transpired = state.transpiredAtPause + Date.now() - state.startedAt;
+      const newTicks = state.ticks + 1;
+      const newTranspired = state.paused
+        ? state.transpired
+        : state.transpiredAtPause + Date.now() - state.startedAt;
 
       return {
         ...state,
-        ticks: state.ticks + 1,
-        transpired,
+        ticks: newTicks,
+        transpired: newTranspired,
       };
     }
     case ClockActionType.SET_TRANSPIRED: {

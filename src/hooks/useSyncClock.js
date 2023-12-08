@@ -13,7 +13,7 @@ import useInterval from "@/hooks/useInterval";
  * @param {function} callback
  */
 export default (callback) => {
-  const savedCallback = useRef(callback);
+  const savedCallback = useRef(null);
 
   useEffect(() => {
     savedCallback.current = callback;
