@@ -5,18 +5,18 @@ import { hasTimerFeature, TimerState } from "@/types/timer";
 
 /**
  * @param {Object} props
- * @param {import('@/types/timer').TimerSnapshot} props.timer The timer
+ * @param {import('@/types/timer').TimerSnapshot} props.timerSnapshot a snapshot of the timer
  *
  * @returns {JSX.Element}
  */
-const TimerDisplay = ({ timer: { options, progress } }) => {
+const TimerDisplay = ({ timerSnapshot: { options, progress } }) => {
   const { rounds, type, countUp } = options;
   const { round, roundTranspired, isWorking, roundDuration, state } = progress;
 
   let displayState = "";
   if (state == TimerState.RUNNING) {
     displayState = isWorking ? "Work!" : "Rest";
-  } else if (state == TimerState.PAUSED) {
+  } else if (state == TimerState.STOPPED) {
     displayState = "Paused";
   } else if (state == TimerState.COMPLETED) {
     displayState = "Completed";

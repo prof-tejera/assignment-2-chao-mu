@@ -12,9 +12,9 @@ import useWorkoutContext from "@/contexts/workout/useWorkoutContext";
 import styles from "./Workout.module.css";
 
 const Workout = () => {
-  const { timer } = useWorkoutContext();
+  const { timerSnapshot } = useWorkoutContext();
 
-  if (!timer) {
+  if (!timerSnapshot) {
     return (
       <div className={styles["missing-timer"]}>
         <Link to="/add">Add</Link> a timer to get started
@@ -24,7 +24,7 @@ const Workout = () => {
 
   return (
     <section>
-      <TimerDisplay timer={timer} />
+      <TimerDisplay timerSnapshot={timerSnapshot} />
       <WorkoutControls />
     </section>
   );

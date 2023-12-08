@@ -40,7 +40,7 @@
  */
 export const TimerState = {
   /** Timer is paused. */
-  PAUSED: "paused",
+  STOPPED: "stopped",
   /** Timer is running. */
   RUNNING: "running",
   /** Timer is completed. */
@@ -156,7 +156,7 @@ export const getTimerProgress = ({ options, transpired, active }) => {
     roundTranspired / (isWorking ? workDuration : restDuration);
   const totalProgress = (completedRounds + roundProgress) / rounds;
 
-  let state = active ? TimerState.RUNNING : TimerState.PAUSED;
+  let state = active ? TimerState.RUNNING : TimerState.STOPPED;
 
   return {
     id,

@@ -1,11 +1,12 @@
 import TimeDisplay from "@/components/ui/TimeDisplay";
 
-const TimerPreview = ({ timer }) => (
+const TimerPreview = ({ options }) => (
   <span>
-    {timer.type} <TimeDisplay timeMs={timer.workDuration} />x{timer.rounds}
-    {timer.restDuration > 0 && (
+    {options.type} <TimeDisplay timeMs={options.workDuration} />x
+    {options.rounds}
+    {options.restDuration > 0 && (
       <span>
-        &nbsp;(rest: <TimeDisplay timeMs={timer.restDuration} />)
+        &nbsp;(rest: <TimeDisplay timeMs={options.restDuration} />)
       </span>
     )}
   </span>

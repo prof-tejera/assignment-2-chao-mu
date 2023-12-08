@@ -44,7 +44,7 @@ const docs = [
     comp: TimerDisplay,
     name: "Timer",
     props: {
-      timer: {
+      timerSnapshot: {
         options: exampleTABATA,
         progress: {
           round: 1,
@@ -59,7 +59,7 @@ const docs = [
   {
     comp: TimerPreview,
     name: "TimerPreview",
-    props: { timer: exampleTABATA },
+    props: { options: exampleTABATA },
   },
   {
     comp: TimerForm,

@@ -20,17 +20,16 @@ import Button from "@/components/form/Button";
 
 const WorkoutControls = () => {
   const {
-    timer,
+    timerSnapshot,
     pauseWorkout,
     resumeWorkout,
     resetWorkout,
     resetTimer,
-    restartTimer,
     fastForwardTimer,
     fastBackwardTimer,
   } = useWorkoutContext();
 
-  const state = timer.progress.state;
+  const state = timerSnapshot.progress.state;
 
   return (
     <div className={styles["workout-controls"]}>
@@ -38,7 +37,7 @@ const WorkoutControls = () => {
         <Button onClick={() => fastBackwardTimer()}>
           <IoMdSkipBackward />
         </Button>
-        {state === TimerState.PAUSED && (
+        {state === TimerState.STOPPED && (
           <Button onClick={() => resumeWorkout()}>
             <IoMdPlay />
           </Button>
