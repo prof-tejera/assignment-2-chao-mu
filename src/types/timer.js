@@ -1,5 +1,6 @@
 /**
  * @typedef {Object} TimerSnapshot
+ * @property {string} id - Unique identifier of the timer.
  * @property {TimerOptions} options - Options of the timer.
  * @property {TimerProgress} progress - Progress of the timer.
  */
@@ -104,12 +105,12 @@ export const createTimerSnapshot = ({
   active = false,
   transpired = 0,
 }) => ({
+  id: options.id,
   options,
   progress: getTimerProgress({ options, active, transpired }),
 });
 
-/**
- * Returns the progress of the timer given transpired time.
+/** Returns the progress of the timer given transpired time.
  *
  * @param {Object} params
  * @param {TimerOptions} params.options - Options of the timer.

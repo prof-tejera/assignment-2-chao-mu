@@ -8,12 +8,16 @@ import useWorkoutContext from "@/contexts/workout/useWorkoutContext";
 import styles from "./HomePage.module.css";
 
 const HomePage = () => {
-  const { plan, removeTimer } = useWorkoutContext();
+  const { plan, timer, removeTimer } = useWorkoutContext();
 
   return (
     <div className={styles["home-page"]}>
       <Workout />
-      <WorkoutPlan plan={plan} onRemove={(timer) => removeTimer(timer)} />
+      <WorkoutPlan
+        plan={plan}
+        selectedTimerId={timer.id}
+        onRemove={(timer) => removeTimer(timer)}
+      />
       <WorkoutSummary plan={plan} />
     </div>
   );

@@ -22,6 +22,7 @@
 
   --clr-error: hsl(0, 100%, 45%);
   --clr-neutral-150: hsl(0, 0%, 94%);
+  --clr-highlight: hsl(60, 100%, 90%);
 
   --spacing-xxs: 0.125rem;
   --spacing-xs: 0.25rem;

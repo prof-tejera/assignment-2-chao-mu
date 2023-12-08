@@ -71,6 +71,12 @@ const WorkoutProvider = ({ children }) => {
     setTranspired(getTotalDuration(options));
   };
 
+  const fastBackwardTimer = () => {
+    const updatedCursor = Math.max(0, cursor - 1);
+    setCursor(updatedCursor);
+    resetClock();
+  };
+
   /**
    * @param {import('@/types/timer').TimerOptions} timerOptions
    */
@@ -114,6 +120,7 @@ const WorkoutProvider = ({ children }) => {
     resetTimer,
     timer,
     fastForwardTimer,
+    fastBackwardTimer,
   };
 
   return (

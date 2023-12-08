@@ -3,6 +3,7 @@ import {
   IoMdPlay,
   IoMdPause,
   IoMdSkipForward,
+  IoMdSkipBackward,
   IoMdRefresh,
 } from "react-icons/io";
 
@@ -26,6 +27,7 @@ const WorkoutControls = () => {
     resetWorkout,
     resetTimer,
     fastForwardTimer,
+    fastBackwardTimer,
   } = useWorkoutContext();
 
   const state = timer.progress.state;
@@ -33,6 +35,9 @@ const WorkoutControls = () => {
   return (
     <div className={styles["workout-controls"]}>
       <div className={styles["workout-controls__timer"]}>
+        <Button onClick={() => fastBackwardTimer()}>
+          <IoMdSkipBackward />
+        </Button>
         {state === TimerState.PAUSED && (
           <Button onClick={() => resumeWorkout()}>
             <IoMdPlay />

@@ -29,6 +29,7 @@ const docs = [
     name: "WorkoutPlan",
     props: {
       plan: mockWorkout,
+      selectedTimerId: mockWorkout[2].id,
       onRemove: (id) => {
         console.log("Removing timer", id);
       },

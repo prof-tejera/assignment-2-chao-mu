@@ -11,10 +11,11 @@ import styles from "./WorkoutPlan.module.css";
 /**
  * @param {Object} props
  * @param {Array.<import('@/types/timer').TimerOptions>} props.plan
+ * @param {string} [props.selectedTimerId]
  * @param {function(string): void} props.onRemove
  * @returns {JSX.Element}
  */
-const WorkoutPlan = ({ plan, onRemove }) => {
+const WorkoutPlan = ({ plan, selectedTimerId, onRemove }) => {
   return (
     <section className={styles["workout-plan"]}>
       <table>
@@ -36,7 +37,7 @@ const WorkoutPlan = ({ plan, onRemove }) => {
             </tr>
           )}
           {plan.map((options, index) => (
-            <tr key={index}>
+            <tr key={index} data-active={options.id === selectedTimerId}>
               <td>{options.type}</td>
               <td>
                 <TimeDisplay timeMs={options.workDuration} />
