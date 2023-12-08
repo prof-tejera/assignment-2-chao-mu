@@ -14,6 +14,9 @@ import WorkoutContext from "./WorkoutContext";
 const WorkoutProvider = ({ children }) => {
   const [timer, setTimer] = useState(null);
 
+  // A trick to not consider consecutive timers completed before time resets
+  const [dirty, setDirty] = useState(false);
+
   const {
     plan,
     isLastTimer,
@@ -49,19 +52,25 @@ const WorkoutProvider = ({ children }) => {
     });
 
     setTimer(timer);
+    setDirty(false);
   }, [transpired, paused, plan, currentTimerOptions]);
 
   useEffect(() => {
-    if (timer && !paused && timer.progress.state === TimerState.COMPLETED) {
+    if (
+      !dirty &&
+      timer &&
+      !paused &&
+      timer.progress.state === TimerState.COMPLETED
+    ) {
       if (isLastTimer) {
         pauseClock();
       } else {
-        setTimer(null);
+        setDirty(true);
         restartClock();
         nextTimer();
       }
     }
-  }, [isLastTimer, paused, nextTimer, timer, restartClock, pauseClock]);
+  }, [isLastTimer, dirty, paused, nextTimer, timer, restartClock, pauseClock]);
 
   const fastForwardTimer = () => {
     if (!timer) {

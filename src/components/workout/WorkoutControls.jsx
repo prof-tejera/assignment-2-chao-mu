@@ -4,7 +4,6 @@ import {
   IoMdPause,
   IoMdSkipForward,
   IoMdSkipBackward,
-  IoMdRefresh,
 } from "react-icons/io";
 
 // Ours - Style
@@ -50,8 +49,10 @@ const WorkoutControls = () => {
           </Button>
         )}
         {state === TimerState.COMPLETED && (
-          <Button onClick={() => restartTimer()}>
-            <IoMdRefresh />
+          <Button>
+            <div className={styles["workout-controls__button--empty"]}>
+              <IoMdPause />
+            </div>
           </Button>
         )}
         <Button onClick={resetTimer}>Reset Timer</Button>

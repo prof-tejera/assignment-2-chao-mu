@@ -10,3 +10,11 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.workout-controls [data-hidden="true"] {
+  visibility: hidden;
+}
+
+.workout-controls__button--empty {
+  visibility: hidden;
+}
