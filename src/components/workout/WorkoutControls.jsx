@@ -26,6 +26,7 @@ const WorkoutControls = () => {
     resumeWorkout,
     resetWorkout,
     resetTimer,
+    restartTimer,
     fastForwardTimer,
     fastBackwardTimer,
   } = useWorkoutContext();
@@ -49,7 +50,7 @@ const WorkoutControls = () => {
           </Button>
         )}
         {state === TimerState.COMPLETED && (
-          <Button onClick={() => resetTimer()}>
+          <Button onClick={() => restartTimer()}>
             <IoMdRefresh />
           </Button>
         )}

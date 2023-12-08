@@ -1,19 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { useState } from "react";
-
-import { getTotalDuration, TimerState } from "@/types/timer";
+import {
+  getTotalDuration,
+  TimerState,
+  createTimerSnapshot,
+} from "@/types/timer";
 
 import { useClock } from "@/hooks/useClock";
-
-import { createTimerSnapshot } from "@/types/timer";
+import { useWorkoutPlan } from "@/hooks/useWorkoutPlan";
 
 import WorkoutContext from "./WorkoutContext";
 
 const WorkoutProvider = ({ children }) => {
-  const [plan, setPlan] = useState([]);
   const [timer, setTimer] = useState(null);
-  const [cursor, setCursor] = useState(0);
+
+  const {
+    plan,
+    isLastTimer,
+    currentTimerOptions,
+    gotoFirstTimer,
+    addTimer,
+    removeTimer,
+    nextTimer,
+    prevTimer,
+  } = useWorkoutPlan();
 
   const {
     paused,
@@ -21,76 +31,54 @@ const WorkoutProvider = ({ children }) => {
     resumeClock,
     pauseClock,
     resetClock,
-    restartClock,
     setTranspired,
+    restartClock,
   } = useClock();
 
-  // We do this to avoid timer as a dependency on the useEffect below
-  // which risks causing an infinite loop if progress is updated each time
-  // this is not expected, but theoretically possible
-  const timerDefined = timer != null;
+  useEffect(() => {
+    if (!currentTimerOptions) {
+      setTimer(null);
+
+      return;
+    }
+
+    const timer = createTimerSnapshot({
+      transpired,
+      options: currentTimerOptions,
+      active: !paused,
+    });
+
+    setTimer(timer);
+  }, [transpired, paused, plan, currentTimerOptions]);
 
   useEffect(() => {
-    // Do we have an empty plan?
-    if (plan.length === 0) {
-      setTimer(null);
-      setCursor(0);
-      return;
-    }
-
-    const updatedTimer = createTimerSnapshot({
-      options: plan[cursor],
-      active: !paused,
-      transpired,
-    });
-    setTimer(updatedTimer);
-
-    // Did the timer complete?
-    if (updatedTimer.progress.state === TimerState.COMPLETED) {
-      const updatedCursor = cursor + 1;
-
-      // Are we at the end of the plan?
-      if (updatedCursor >= plan.length) {
+    if (timer && !paused && timer.progress.state === TimerState.COMPLETED) {
+      if (isLastTimer) {
         pauseClock();
-
-        return;
+      } else {
+        setTimer(null);
+        restartClock();
+        nextTimer();
       }
-
-      // Next timer!
-      setCursor(updatedCursor);
-      restartClock();
     }
-  }, [transpired, plan, cursor, resetClock, timerDefined, pauseClock, paused]);
+  }, [isLastTimer, paused, nextTimer, timer, restartClock, pauseClock]);
 
   const fastForwardTimer = () => {
-    const options = plan[cursor];
-    if (!options) {
+    if (!timer) {
       return;
     }
 
-    setTranspired(getTotalDuration(options));
+    if (isLastTimer) {
+      setTranspired(getTotalDuration(timer.options));
+    } else {
+      nextTimer();
+      restartClock();
+    }
   };
 
   const fastBackwardTimer = () => {
-    const updatedCursor = Math.max(0, cursor - 1);
-    setCursor(updatedCursor);
+    prevTimer();
     resetClock();
-  };
-
-  /**
-   * @param {import('@/types/timer').TimerOptions} timerOptions
-   */
-  const addTimer = (timerOptions) => {
-    setPlan([...plan, timerOptions]);
-  };
-
-  /**
-   * @param {number} id
-   */
-  const removeTimer = (id) => {
-    const updatedPlan = plan.filter((timerOptions) => timerOptions.id !== id);
-
-    setPlan(updatedPlan);
   };
 
   const pauseWorkout = () => {
@@ -103,17 +91,20 @@ const WorkoutProvider = ({ children }) => {
 
   const resetWorkout = () => {
     resetClock();
-    setCursor(0);
+    gotoFirstTimer();
   };
 
   const resetTimer = () => {
     resetClock();
   };
 
+  const restartTimer = () => {
+    restartClock();
+  };
+
   const value = {
     plan,
-    addTimer,
-    removeTimer,
+    restartTimer,
     pauseWorkout,
     resumeWorkout,
     resetWorkout,
@@ -121,6 +112,12 @@ const WorkoutProvider = ({ children }) => {
     timer,
     fastForwardTimer,
     fastBackwardTimer,
+    removeTimer: (id) => {
+      removeTimer({ id });
+    },
+    addTimer: (options) => {
+      addTimer({ options });
+    },
   };
 
   return (

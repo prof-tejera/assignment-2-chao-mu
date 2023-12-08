@@ -110,7 +110,8 @@ export const createTimerSnapshot = ({
   progress: getTimerProgress({ options, active, transpired }),
 });
 
-/** Returns the progress of the timer given transpired time.
+/**
+ * Returns the progress of the timer given transpired time.
  *
  * @param {Object} params
  * @param {TimerOptions} params.options - Options of the timer.

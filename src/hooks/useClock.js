@@ -16,7 +16,6 @@ const ClockActionType = {
   RESUME: "resume",
   PAUSE: "pause",
   RESET: "reset",
-  RESTART: "restart",
   TICK: "tick",
   SET_TRANSPIRED: "setTranspired",
 };
@@ -38,6 +37,8 @@ const initialState = {
  * @param {any} [action.payload]
  */
 const clockReducer = (state, action) => {
+  if (action.type !== ClockActionType.TICK) console.log("clockReducer", action);
+
   switch (action.type) {
     case ClockActionType.RESUME: {
       return {
@@ -56,18 +57,14 @@ const clockReducer = (state, action) => {
     case ClockActionType.RESET: {
       return { ...initialState };
     }
-    case ClockActionType.RESTART: {
-      return {
-        ...initialState,
-        paused: false,
-      };
-    }
     case ClockActionType.TICK: {
       if (state.paused) {
         return state;
       }
 
       const transpired = state.transpiredAtPause + Date.now() - state.startedAt;
+      console.log("BEFORE", state.transpired);
+      console.log("TRANSPIRED", transpired);
 
       return {
         ...state,
@@ -85,13 +82,16 @@ const clockReducer = (state, action) => {
       };
     }
     default: {
-      throw Error("Unknown action: " + action.type);
+      throw Error("Unknown action received by clockReducer: " + action.type);
     }
   }
 };
 
 export const useClock = () => {
-  const [state, dispatch] = useReducer(clockReducer, initialState);
+  const [{ transpired, paused }, dispatch] = useReducer(
+    clockReducer,
+    initialState,
+  );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -104,7 +104,8 @@ export const useClock = () => {
   }, []);
 
   return {
-    ...state,
+    transpired,
+    paused,
     resumeClock: useCallback(
       () => dispatch({ type: ClockActionType.RESUME }),
       [],
@@ -117,10 +118,10 @@ export const useClock = () => {
       () => dispatch({ type: ClockActionType.RESET }),
       [],
     ),
-    restartClock: useCallback(
-      () => dispatch({ type: ClockActionType.RESTART }),
-      [],
-    ),
+    restartClock: useCallback(() => {
+      dispatch({ type: ClockActionType.RESET });
+      dispatch({ type: ClockActionType.RESUME });
+    }, []),
     setTranspired: useCallback(
       (newTranspired) =>
         dispatch({

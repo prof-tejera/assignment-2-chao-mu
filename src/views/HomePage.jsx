@@ -15,7 +15,7 @@ const HomePage = () => {
       <Workout />
       <WorkoutPlan
         plan={plan}
-        selectedTimerId={timer.id}
+        selectedTimerId={timer && timer.id}
         onRemove={(timer) => removeTimer(timer)}
       />
       <WorkoutSummary plan={plan} />
