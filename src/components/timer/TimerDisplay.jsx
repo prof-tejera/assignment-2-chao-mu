@@ -9,7 +9,8 @@ import { hasTimerFeature, TimerState } from "@/types/timer";
  *
  * @returns {JSX.Element}
  */
-const TimerDisplay = ({ timerSnapshot: { options, progress } }) => {
+const TimerDisplay = ({ timerSnapshot }) => {
+  const { options, progress } = timerSnapshot;
   const { rounds, type, countUp } = options;
   const { round, roundTranspired, isWorking, roundDuration, state } = progress;
 

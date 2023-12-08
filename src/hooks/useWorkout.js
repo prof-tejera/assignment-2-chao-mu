@@ -49,6 +49,7 @@ export default () => {
   // Transpired only increases when the clock is not paused.
   const clockDispatch = useSyncClock(({ transpired, paused }) => {
     if (currentTimerOptions === null) {
+      setTimerSnapshot(null);
       return;
     }
 
@@ -94,10 +95,7 @@ export default () => {
         }),
       );
     },
-    nextTimer: () => {
-      dispatchNextTimer(clockDispatch);
-    },
-    prevTimer: () => {
+    fastBackwardTimer: () => {
       dispatchPrevTimer(clockDispatch);
     },
     resetWorkout: () => {

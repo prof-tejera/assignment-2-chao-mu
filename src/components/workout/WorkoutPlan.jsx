@@ -22,8 +22,8 @@ const WorkoutPlan = ({ plan, selectedTimerId, onRemove }) => {
         <thead>
           <tr>
             <th>Type</th>
-            <th>Work Duration</th>
-            <th>Rest Duration</th>
+            <th>Work</th>
+            <th>Rest</th>
             <th>Rounds</th>
             <th></th>
           </tr>

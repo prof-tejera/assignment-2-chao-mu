@@ -77,13 +77,12 @@ export const tickClock = () => ({ type: ClockActionType.TICK });
  *
  * @param {Object} payload
  * @param {number} payload.transpired
- * @param {boolean} [payload.paused]
  *
- * @returns {{type: ClockActionType, payload: {transpired: number, paused: boolean}}}
+ * @returns {{type: ClockActionType, payload: {transpired: number}}}
  */
-export const setTranspired = ({ transpired, paused = false }) => ({
+export const setTranspired = ({ transpired }) => ({
   type: ClockActionType.SET_TRANSPIRED,
-  payload: { transpired, paused },
+  payload: { transpired },
 });
 
 /**
@@ -114,6 +113,7 @@ const clockReducer = (state, { type, payload }) => {
     case ClockActionType.RESTART: {
       return {
         ...initialState,
+        startedAt: Date.now(),
         paused: false,
       };
     }
@@ -130,13 +130,13 @@ const clockReducer = (state, { type, payload }) => {
       };
     }
     case ClockActionType.SET_TRANSPIRED: {
-      const { transpired, paused } = payload.transpired;
+      const { transpired } = payload;
 
       return {
         ...state,
         transpired,
         transpiredAtPause: transpired,
-        paused: paused,
+        paused: true,
       };
     }
     default: {
