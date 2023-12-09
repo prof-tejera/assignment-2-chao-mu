@@ -24,9 +24,6 @@ const SiteLayout = () => {
       <main className={styles.main}>
         <Outlet />
       </main>
-      <footer className={styles.footer}>
-        <p>Happy Workout</p>
-      </footer>
     </>
   );
 };

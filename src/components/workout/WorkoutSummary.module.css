@@ -1,7 +1,6 @@
 .workout-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
+  display: flex;
+  column-gap: var(--spacing-xl);
   border-bottom: 2px solid black;
   padding: var(--spacing-sm) var(--spacing-md);
 }

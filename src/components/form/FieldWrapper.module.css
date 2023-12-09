@@ -11,14 +11,11 @@
   border: 2px solid hsl(218, 51%, 37%);
   background-color: white;
   padding: var(--spacing-sm);
-}
-
-.field-wrapper {
-  border: 2px transparent solid;
   transition: border-color 0.5s ease;
 }
 
-.field-wrapper[data-has-error="true"] {
+.field-wrapper[data-has-error="true"] input,
+.field-wrapper[data-has-error="true"] select {
   border-color: var(--clr-error);
 }
 

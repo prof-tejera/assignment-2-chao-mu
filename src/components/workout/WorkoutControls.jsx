@@ -35,33 +35,49 @@ const WorkoutControls = () => {
   return (
     <div className={styles["workout-controls"]}>
       <div className={styles["workout-controls__basic"]}>
-        <Button onClick={() => fastBackwardTimer()}>
+        <Button
+          onClick={() => fastBackwardTimer()}
+          tooltip="Go to the previous timer, or reset if first timer."
+        >
           <IoMdSkipBackward />
         </Button>
         {state === TimerState.STOPPED && (
-          <Button onClick={() => resumeWorkout()}>
+          <Button onClick={() => resumeWorkout()} tooltip="Resume the workout">
             <IoMdPlay />
           </Button>
         )}
         {state === TimerState.RUNNING && (
-          <Button onClick={() => pauseWorkout()}>
+          <Button onClick={() => pauseWorkout()} tooltip="Pause the workout">
             <IoMdPause />
           </Button>
         )}
         {state === TimerState.COMPLETED && (
-          <Button>
-            <Hide>
+          <Hide>
+            <Button>
               <IoMdPause />
-            </Hide>
-          </Button>
+            </Button>
+          </Hide>
         )}
-        <Button onClick={() => fastForwardTimer()}>
+        <Button
+          onClick={() => fastForwardTimer()}
+          tooltip="Go to the next timer, or mark this one complete if it's the last"
+        >
           <IoMdSkipForward />
         </Button>
       </div>
       <div className={styles["workout-controls__resets"]}>
-        <Button onClick={resetTimer}>Reset Timer</Button>
-        <Button onClick={resetWorkout}>Reset Workout</Button>
+        <Button
+          onClick={resetTimer}
+          tooltip="Return to the beginning of the timer"
+        >
+          Reset Timer
+        </Button>
+        <Button
+          onClick={resetWorkout}
+          tooltip="Return to the beginning of the workout"
+        >
+          Reset Workout
+        </Button>
       </div>
     </div>
   );

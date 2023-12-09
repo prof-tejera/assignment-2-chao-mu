@@ -1,7 +1,7 @@
-import TimeDisplay from "@/components/ui/TimeDisplay";
-
 // Ours - Components
 import Progress from "@/components/ui/Progress";
+import TimeDisplay from "@/components/ui/TimeDisplay";
+import TimerDisplayPanel from "@/components/timer/TimerDisplayPanel";
 
 // Ours - Types
 import { hasTimerFeature, TimerState } from "@/types/timer";
@@ -9,12 +9,6 @@ import { hasTimerFeature, TimerState } from "@/types/timer";
 // Ours - Style
 import styles from "./TimerDisplay.module.css";
 
-/**
- * @param {Object} props
- * @param {import('@/types/timer').TimerSnapshot} props.timerSnapshot a snapshot of the timer
- *
- * @returns {JSX.Element}
- */
 const TimerDisplay = ({ timerSnapshot }) => {
   const { options, progress } = timerSnapshot;
   const { rounds, type, countUp } = options;
@@ -28,13 +22,13 @@ const TimerDisplay = ({ timerSnapshot }) => {
     totalProgress,
   } = progress;
 
-  let displayState = "";
+  let displayStatus = "";
   if (state == TimerState.RUNNING) {
-    displayState = isWorking ? "Work!" : "Rest";
+    displayStatus = isWorking ? "Work!" : "Rest";
   } else if (state == TimerState.STOPPED) {
-    displayState = "Paused";
+    displayStatus = "Paused";
   } else if (state == TimerState.COMPLETED) {
-    displayState = "Completed";
+    displayStatus = "Completed";
   } else {
     throw new Error(
       `Unable to calculate timer display state. state=${state}, isWorking=${isWorking}`,
@@ -48,25 +42,29 @@ const TimerDisplay = ({ timerSnapshot }) => {
   const hasRoundFeature = hasTimerFeature(type, "rounds");
 
   return (
-    <section className={styles["timer-display"]}>
-      <div className={styles["timer-display__type"]}>{type}</div>
-      <div className={styles["timer-display__time"]}>
-        <TimeDisplay timeMs={displayedTranspired} showMs />
+    <TimerDisplayPanel>
+      <div className={styles["header"]}>
+        <div className={styles["type"]}>{type}</div>
       </div>
-      <div className={styles.subgroup}>
+      <div className={[styles["featured"]].join(" ")}>
+        <div className={styles["time"]}>
+          <TimeDisplay timeMs={displayedTranspired} showMs />
+        </div>
+        <div className={styles["status"]}>{displayStatus}</div>
+      </div>
+
+      <div className={styles["subgroup"]}>
         {hasRoundFeature && (
-          <div className={styles["timer-display__rounds"]}>
+          <div className={styles["rounds"]}>
             Round {round} of {rounds}
           </div>
         )}
-        <div className={styles["timer-display__state"]}>{displayState}</div>
+        <div className={styles["progress"]}>
+          {hasRoundFeature && <Progress max={1} value={roundProgress} />}
+          <Progress max={1} value={totalProgress} />
+        </div>
       </div>
-
-      <div className={styles["timer-display__progress"]}>
-        {hasRoundFeature && <Progress max={1} value={roundProgress} />}
-        <Progress max={1} value={totalProgress} />
-      </div>
-    </section>
+    </TimerDisplayPanel>
   );
 };
 

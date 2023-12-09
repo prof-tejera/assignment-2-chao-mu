@@ -60,6 +60,11 @@ export default () => {
   // Transpired only increases when the clock is not paused.
   useSyncClock(
     () => {
+      if (!paused && plan.length === 0) {
+        clockDispatch(resetClock());
+        return;
+      }
+
       if (currentTimerOptions === null) {
         setTimerSnapshot(null);
         return;

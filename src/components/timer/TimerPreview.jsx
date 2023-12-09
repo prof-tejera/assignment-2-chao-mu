@@ -1,12 +1,20 @@
 import TimeDisplay from "@/components/ui/TimeDisplay";
 
+// Ours - Styles
+import styles from "./TimerPreview.module.css";
+
+import { hasTimerFeature } from "@/types/timer";
+
 const TimerPreview = ({ options }) => (
-  <span>
-    {options.type} <TimeDisplay timeMs={options.workDuration} />x
-    {options.rounds}
+  <span className={styles["timer-preview"]}>
+    <span>{options.type}</span>
+    <span>
+      <TimeDisplay timeMs={options.workDuration} />
+    </span>
+    {hasTimerFeature(options.type, "rounds") && <span>x{options.rounds}</span>}
     {options.restDuration > 0 && (
       <span>
-        &nbsp;(rest: <TimeDisplay timeMs={options.restDuration} />)
+        (rest: <TimeDisplay timeMs={options.restDuration} />)
       </span>
     )}
   </span>

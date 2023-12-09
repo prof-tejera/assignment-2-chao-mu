@@ -1,6 +1,6 @@
 // Ours - Components
 import WorkoutPlan from "@/components/workout/WorkoutPlan";
-import Workout from "@/components/workout/Workout";
+import TimerDisplayPlaceholder from "@/components/timer/TimerDisplayPlaceholder";
 import WorkoutSummary from "@/components/workout/WorkoutSummary";
 import TimerDisplay from "@/components/timer/TimerDisplay";
 import TimerPreview from "@/components/timer/TimerPreview";
@@ -36,8 +36,8 @@ const docs = [
     },
   },
   {
-    comp: Workout,
-    name: "Workout",
+    comp: TimerDisplayPlaceholder,
+    name: "TimerDisplayPlaceholder",
     props: {},
   },
   {

@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react";
 
 // Ours - Reducers
-import { useClockReducer, tickClock } from "@/reducers/clockReducer";
+import { tickClock } from "@/reducers/clockReducer";
 
 // Ours - Hooks
 import useInterval from "@/hooks/useInterval";
