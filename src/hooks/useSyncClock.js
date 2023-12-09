@@ -8,32 +8,28 @@ import { useClockReducer, tickClock } from "@/reducers/clockReducer";
 import useInterval from "@/hooks/useInterval";
 
 /**
- * Ensures the latest clock state from the clockReducer every iteration
+ * Ensure the clockReducer remains up to date and call the callback every tick, paused or not
  *
- * @param {function} callback
- * @returns function({type: import('@/reducers/clockReducer').ClockActionType, [payload: any]})]}
+ * @returns {void}
  */
-export default (callback) => {
+export default (callback, state, dispatch) => {
   const savedCallback = useRef(null);
 
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
-  const [state, dispatch] = useClockReducer();
   const { ticks } = state;
 
-  // Runs at least every tick
+  // Runs at least every tick.
   useEffect(() => {
     if (savedCallback.current) {
-      savedCallback.current(state, dispatch);
+      savedCallback.current(state);
     }
-  }, [state, ticks, savedCallback, dispatch]);
+  }, [state, ticks, savedCallback]);
 
   // Runs every 20ms
   useInterval(() => {
     dispatch(tickClock());
   }, 20);
-
-  return dispatch;
 };

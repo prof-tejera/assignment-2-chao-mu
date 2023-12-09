@@ -19,6 +19,7 @@ import {
 } from "@/reducers/workoutPlanReducer";
 
 import {
+  useClockReducer,
   restartClock,
   resetClock,
   resumeClock,
@@ -29,49 +30,64 @@ import {
 // Ours - Hokes
 import useSyncClock from "@/hooks/useSyncClock";
 
+let i = 0;
+
 export default () => {
   const [timerSnapshot, setTimerSnapshot] = useState(null);
 
   const [{ currentTimerOptions, isLastTimer, plan }, workoutPlanDispatch] =
     useWorkoutPlanReducer();
 
-  const dispatchNextTimer = (clockDispatch) => {
+  const [clockState, clockDispatch] = useClockReducer();
+  const { transpired, paused } = clockState;
+
+  const resetOrRestart = (reset) => {
+    const action = reset ? resetClock() : restartClock();
+
+    clockDispatch(action);
+  };
+
+  const dispatchNextTimer = () => {
     workoutPlanDispatch(nextTimer());
-    clockDispatch(restartClock());
+    resetOrRestart(paused);
   };
 
-  const dispatchPrevTimer = (clockDispatch) => {
+  const dispatchPrevTimer = () => {
     workoutPlanDispatch(prevTimer());
-    clockDispatch(restartClock());
+    resetOrRestart(paused);
   };
 
-  // Callback is called every tick, whether or not the clock is paused.
+  // Callback is called at least every tick, whether or not the clock is paused.
   // Transpired only increases when the clock is not paused.
-  const clockDispatch = useSyncClock(({ transpired, paused }) => {
-    if (currentTimerOptions === null) {
-      setTimerSnapshot(null);
-      return;
-    }
-
-    const updatedSnapshot = createTimerSnapshot({
-      transpired,
-      active: !paused,
-      options: currentTimerOptions,
-    });
-
-    setTimerSnapshot(updatedSnapshot);
-
-    const { state: updatedState } = updatedSnapshot.progress;
-
-    // Move on to the next if there is another one to move on to
-    if (updatedState === TimerState.COMPLETED) {
-      if (!isLastTimer) {
-        dispatchNextTimer(clockDispatch);
-      } else if (!paused) {
-        clockDispatch(pauseClock());
+  useSyncClock(
+    () => {
+      if (currentTimerOptions === null) {
+        setTimerSnapshot(null);
+        return;
       }
-    }
-  });
+
+      const updatedSnapshot = createTimerSnapshot({
+        transpired,
+        active: !paused,
+        options: currentTimerOptions,
+      });
+
+      setTimerSnapshot(updatedSnapshot);
+
+      const { state: updatedState } = updatedSnapshot.progress;
+
+      // Move on to the next if there is another one to move on to
+      if (updatedState === TimerState.COMPLETED) {
+        if (!isLastTimer) {
+          dispatchNextTimer();
+        } else if (!paused) {
+          clockDispatch(pauseClock());
+        }
+      }
+    },
+    clockState,
+    clockDispatch,
+  );
 
   return {
     plan,
@@ -93,14 +109,18 @@ export default () => {
         return;
       }
 
-      clockDispatch(
-        setTranspired({
-          transpired: getTotalDuration(timerSnapshot.options),
-        }),
-      );
+      if (isLastTimer) {
+        clockDispatch(
+          setTranspired({
+            transpired: getTotalDuration(timerSnapshot.options),
+          }),
+        );
+      } else {
+        dispatchNextTimer();
+      }
     },
     fastBackwardTimer: () => {
-      dispatchPrevTimer(clockDispatch);
+      dispatchPrevTimer();
     },
     resetWorkout: () => {
       workoutPlanDispatch(gotoFirstTimer());
