@@ -11,7 +11,7 @@
 
 .workout-plan table th,
 .workout-plan table td {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
 .workout-plan tr[data-active="true"] > td:first-child {

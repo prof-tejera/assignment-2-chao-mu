@@ -15,31 +15,33 @@ const HomePage = () => {
   const { plan, timerSnapshot, removeTimer, isWorkoutActive } =
     useWorkoutContext();
 
-  const showPlaceholder = timerSnapshot === null;
+  const notReady = timerSnapshot === null;
 
   return (
     <div className={styles["home-page"]}>
-      {showPlaceholder ? (
-        <>
+      {notReady ? (
+        <div className={styles["top-row"]}>
           <div />
           <TimerDisplayPlaceholder />
           <div />
-        </>
+        </div>
       ) : (
         <>
-          <div className={styles.overview}>
-            <WorkoutPlan
-              plan={plan}
-              selectedTimerId={timerSnapshot && timerSnapshot.id}
-              onRemove={(timer) => removeTimer(timer)}
-              isWorkoutActive={isWorkoutActive}
-            />
-            <WorkoutSummary plan={plan} />
+          <div className={styles["top-row"]}>
+            <div className={styles.overview}>
+              <WorkoutSummary plan={plan} />
+            </div>
+            <TimerDisplay timerSnapshot={timerSnapshot} />
+            <div className={styles["control-column"]}>
+              <WorkoutControls />
+            </div>
           </div>
-          <TimerDisplay timerSnapshot={timerSnapshot} />
-          <div className={styles["control-column"]}>
-            <WorkoutControls />
-          </div>
+          <WorkoutPlan
+            plan={plan}
+            selectedTimerId={timerSnapshot && timerSnapshot.id}
+            onRemove={(timer) => removeTimer(timer)}
+            isWorkoutActive={isWorkoutActive}
+          />
         </>
       )}
     </div>

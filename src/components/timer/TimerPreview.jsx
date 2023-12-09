@@ -10,8 +10,8 @@ const TimerPreview = ({ options }) => (
     <span>{options.type}</span>
     <span>
       <TimeDisplay timeMs={options.workDuration} />
+      {hasTimerFeature(options.type, "rounds") && `x${options.rounds}`}
     </span>
-    {hasTimerFeature(options.type, "rounds") && <span>x{options.rounds}</span>}
     {options.restDuration > 0 && (
       <span>
         (rest: <TimeDisplay timeMs={options.restDuration} />)
