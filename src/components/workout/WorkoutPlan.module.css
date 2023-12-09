@@ -16,6 +16,7 @@
 
 .workout-plan tr[data-active="true"] > td:first-child {
   font-weight: var(--font-weight-bold);
+  color: var(--clr-accent-300);
 }
 
 .workout-plan table tbody tr:nth-child(even) {
