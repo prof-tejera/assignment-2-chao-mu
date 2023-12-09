@@ -64,8 +64,12 @@ export default () => {
     const { state: updatedState } = updatedSnapshot.progress;
 
     // Move on to the next if there is another one to move on to
-    if (updatedState === TimerState.COMPLETED && !isLastTimer) {
-      dispatchNextTimer(clockDispatch);
+    if (updatedState === TimerState.COMPLETED) {
+      if (!isLastTimer) {
+        dispatchNextTimer(clockDispatch);
+      } else if (!paused) {
+        clockDispatch(pauseClock());
+      }
     }
   });
 
@@ -103,6 +107,10 @@ export default () => {
       clockDispatch(resetClock());
     },
     removeTimer: (id) => {
+      if (currentTimerOptions && currentTimerOptions.id === id) {
+        clockDispatch(restartClock());
+      }
+
       workoutPlanDispatch(removeTimer({ id }));
     },
     addTimer: (options) => {

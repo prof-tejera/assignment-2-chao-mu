@@ -11,6 +11,7 @@ import useInterval from "@/hooks/useInterval";
  * Ensures the latest clock state from the clockReducer every iteration
  *
  * @param {function} callback
+ * @returns function({type: import('@/reducers/clockReducer').ClockActionType, [payload: any]})]}
  */
 export default (callback) => {
   const savedCallback = useRef(null);

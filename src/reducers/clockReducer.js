@@ -15,7 +15,7 @@ import { useReducer, useEffect } from "react";
  * @enum {string}
  * @readonly
  */
-const ClockActionType = {
+export const ClockActionType = {
   RESUME: "RESUME",
   PAUSE: "PAUSE",
   RESET: "RESET",
