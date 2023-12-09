@@ -56,8 +56,10 @@ As you have noticed this repository is empty. To begin this assignment you must 
 
 ### Deployment Instructions (GH actions)
 
-[Deployment instructions](https://github.com/prof-tejera/react-deployment-code#github-actions)
+URL: https://assignment-2-chao-mu.vercel.app/
 
 ## Bonus
 
 - Add each timer to documentation (3pt)
+
+Sorry, I took over the documentation page.
