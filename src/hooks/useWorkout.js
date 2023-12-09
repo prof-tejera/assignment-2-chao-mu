@@ -30,8 +30,6 @@ import {
 // Ours - Hokes
 import useSyncClock from "@/hooks/useSyncClock";
 
-let i = 0;
-
 export default () => {
   const [timerSnapshot, setTimerSnapshot] = useState(null);
 
@@ -41,20 +39,21 @@ export default () => {
   const [clockState, clockDispatch] = useClockReducer();
   const { transpired, paused } = clockState;
 
-  const resetOrRestart = (reset) => {
-    const action = reset ? resetClock() : restartClock();
+  // Maintain the pause value when changing timers
+  const resetOrRestart = () => {
+    const action = paused ? resetClock() : restartClock();
 
     clockDispatch(action);
   };
 
   const dispatchNextTimer = () => {
     workoutPlanDispatch(nextTimer());
-    resetOrRestart(paused);
+    resetOrRestart();
   };
 
   const dispatchPrevTimer = () => {
     workoutPlanDispatch(prevTimer());
-    resetOrRestart(paused);
+    resetOrRestart();
   };
 
   // Callback is called at least every tick, whether or not the clock is paused.
@@ -128,7 +127,7 @@ export default () => {
     },
     removeTimer: (id) => {
       if (currentTimerOptions && currentTimerOptions.id === id) {
-        clockDispatch(restartClock());
+        resetOrRestart();
       }
 
       workoutPlanDispatch(removeTimer({ id }));

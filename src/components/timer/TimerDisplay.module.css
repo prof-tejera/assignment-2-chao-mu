@@ -1,0 +1,41 @@
+.timer-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: var(--spacing-lg);
+}
+
+.timer-display__time {
+  font-size: var(--font-size-xxl);
+}
+
+.timer-display__rounds {
+  font-size: var(--font-size-lg);
+  font-variant: small-caps;
+}
+
+.timer-display__type {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  font-variant: small-caps;
+}
+
+.timer-display__state {
+  font-size: var(--font-size-lg);
+  font-variant: small-caps;
+}
+
+.timer-display__progress {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-xxs);
+  align-self: stretch;
+}
+
+.subgroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

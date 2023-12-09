@@ -23,7 +23,7 @@ const Workout = () => {
   }
 
   return (
-    <section>
+    <section className={styles.workout}>
       <TimerDisplay timerSnapshot={timerSnapshot} />
       <WorkoutControls />
     </section>

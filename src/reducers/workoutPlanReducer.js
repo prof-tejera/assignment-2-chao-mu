@@ -92,14 +92,22 @@ const workoutPlanReducer = (state, action) => {
 
       return { ...state, plan };
     }
+
     case WorkoutPlanActionType.REMOVE_TIMER: {
       const { id } = action.payload;
       const index = state.plan.findIndex((timer) => timer.id === id);
-      const cursor = state.cursor > index ? state.cursor - 1 : state.cursor;
+
+      // If the current cursor is on or after the index, this will cause our current timer to jump
+      // forwards, so we need to adjust, unless we want it to jump forward (e.g. we're removingt the current timer)
+      let cursor = state.cursor > index ? state.cursor - 1 : state.cursor;
+
       const plan = [
         ...state.plan.slice(0, index),
         ...state.plan.slice(index + 1),
       ];
+
+      // This however may have put us out of bounds, so we  might need to adjust
+      cursor = Math.max(0, Math.min(plan.length - 1, cursor));
 
       return { ...state, plan, cursor };
     }

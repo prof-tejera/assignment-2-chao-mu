@@ -42,7 +42,7 @@ const docs = [
   },
   {
     comp: TimerDisplay,
-    name: "Timer",
+    name: "TimerDisplay",
     props: {
       timerSnapshot: {
         options: exampleTABATA,

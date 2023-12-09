@@ -14,12 +14,12 @@
   padding: var(--spacing-sm) var(--spacing-md);
 }
 
-.workout-plan tr[data-active="true"] > td {
-  background-color: var(--clr-highlight);
+.workout-plan tr[data-active="true"] > td:first-child {
+  font-weight: var(--font-weight-bold);
 }
 
 .workout-plan table tbody tr:nth-child(even) {
-  background-color: var(--clr-neutral-150);
+  background-color: var(--clr-odd-rows);
 }
 
 .no-timers {

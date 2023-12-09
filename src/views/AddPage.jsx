@@ -9,12 +9,11 @@ import styles from "./AddPage.module.css";
 const AddPage = () => {
   const navigate = useNavigate();
 
-  const { addTimer, resetWorkout } = useWorkoutContext();
+  const { addTimer } = useWorkoutContext();
 
   // Add the timer and redirect to home
   const handleSubmit = (timer) => {
     addTimer(timer);
-    resetWorkout();
     navigate("/");
   };
 

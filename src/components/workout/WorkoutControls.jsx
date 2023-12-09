@@ -17,6 +17,7 @@ import { TimerState } from "@/types/timer";
 
 // Ours - Components
 import Button from "@/components/form/Button";
+import Hide from "@/components/ui/Hide";
 
 const WorkoutControls = () => {
   const {
@@ -33,7 +34,7 @@ const WorkoutControls = () => {
 
   return (
     <div className={styles["workout-controls"]}>
-      <div className={styles["workout-controls__timer"]}>
+      <div className={styles["workout-controls__basic"]}>
         <Button onClick={() => fastBackwardTimer()}>
           <IoMdSkipBackward />
         </Button>
@@ -49,17 +50,17 @@ const WorkoutControls = () => {
         )}
         {state === TimerState.COMPLETED && (
           <Button>
-            <div className={styles["workout-controls__button--empty"]}>
+            <Hide>
               <IoMdPause />
-            </div>
+            </Hide>
           </Button>
         )}
-        <Button onClick={resetTimer}>Reset Timer</Button>
         <Button onClick={() => fastForwardTimer()}>
           <IoMdSkipForward />
         </Button>
       </div>
-      <div className={styles["workout-controls__workout"]}>
+      <div className={styles["workout-controls__resets"]}>
+        <Button onClick={resetTimer}>Reset Timer</Button>
         <Button onClick={resetWorkout}>Reset Workout</Button>
       </div>
     </div>

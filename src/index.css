@@ -21,8 +21,19 @@
   --font-weight-bold: 700;
 
   --clr-error: hsl(0, 100%, 45%);
+  --clr-bg: inherit;
+  --clr-odd-rows: hsla(0, 0%, 0%, 0.04);
+
   --clr-neutral-150: hsl(0, 0%, 94%);
-  --clr-highlight: hsl(60, 100%, 90%);
+  --clr-neutral-200: hsl(0, 0%, 90%);
+  --clr-primary-50: hsl(257, 49%, 95%);
+  --clr-primary-100: hsl(257, 49%, 85%);
+  --clr-primary-200: hsl(257, 49%, 75%);
+  --clr-primary-300: hsl(257, 49%, 65%);
+  --clr-primary-400: hsl(257, 49%, 55%);
+  --clr-primary-500: hsl(257, 49%, 45%);
+
+  --clr-highlight: var(--clr-primary-50);
 
   --spacing-xxs: 0.125rem;
   --spacing-xs: 0.25rem;
@@ -30,10 +41,18 @@
   --spacing-md: 0.75rem;
   --spacing-lg: 1rem;
   --spacing-xl: 2rem;
+
+  --border-radius-xs: 0.125rem;
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  --border-radius-xl: 2rem;
+  --border-radius-xxl: 4rem;
 }
 
 body {
   font-size: var(--font-size-md);
+  background: var(--clr-bg);
 }
 
 #root {
