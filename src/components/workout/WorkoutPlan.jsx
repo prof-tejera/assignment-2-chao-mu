@@ -43,8 +43,8 @@ const WorkoutPlan = ({
               </td>
             </tr>
           )}
-          {plan.map((options, index) => (
-            <tr key={index} data-active={options.id === selectedTimerId}>
+          {plan.map((options) => (
+            <tr key={options.id} data-active={options.id === selectedTimerId}>
               <td>{options.type}</td>
               <td>
                 <TimeDisplay timeMs={options.workDuration} />
